@@ -41,21 +41,25 @@ const std::string & Trainer::get_name() const {
   return name;
 }
 
+// REQUIRES: The trainer's active roster is not empty
 // EFFECTS: Arbitrarily chooses a pokemon for battle by selecting the first
 //          pokemon in the trainer's active roster. That pokemon is removed
 //          from the roster and returned.
 Pokemon Trainer::choose_pokemon() {
+  assert(!active_roster.empty());
   Pokemon chosen = active_roster[0];
   active_roster.erase(active_roster.begin());
   return chosen;
 }
 
+// REQUIRES: The trainer's active roster is not empty
 // EFFECTS: Chooses a pokemon to face a specific adversary type. Specifically,
 //          the first pokemon in the active roster that is "effective" against
 //          the given adversary is chosen and returned. If there are no such
 //          pokemon, the first pokemon in the roster is returned. The chosen
 //          pokemon is removed from the roster.
 Pokemon Trainer::choose_pokemon(PokemonType adversary_type) {
+  assert(!active_roster.empty());
   for(int i = 0; i < active_roster.size(); ++i) {
     if (active_roster[i].is_effective_against(adversary_type)) {
       Pokemon chosen = active_roster[i];
