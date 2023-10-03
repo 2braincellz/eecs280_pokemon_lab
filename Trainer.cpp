@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <random>
+#include <cassert>
 
 #include "Trainer.hpp"
 
