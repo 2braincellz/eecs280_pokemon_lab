@@ -1,4 +1,3 @@
-
 #include <algorithm>
 #include <random>
 #include <string>
@@ -27,7 +26,7 @@ Trainer::Trainer(std::istream &is) {
   is >> name;
 
   // Assumption: Read exactly 5 pokemon
-  for(int i = 0; i < 5; ++i) {
+  for(int i = 0; i < 5; i++) {
     Pokemon p;
     is >> p;
     pokemon.push_back(p);
@@ -48,7 +47,11 @@ const std::string & Trainer::get_name() const {
 //          from the roster and returned.
 Pokemon Trainer::choose_pokemon() {
   assert(!active_roster.empty());
-  return Pokemon(); // TODO: Replace with your implementation
+  
+  Pokemon chosen_p =  active_roster[0];
+  active_roster.erase(active_roster.begin());
+
+  return chosen_p;
 }
 
 // REQUIRES: The trainer's active roster is not empty
@@ -59,10 +62,21 @@ Pokemon Trainer::choose_pokemon() {
 //          pokemon is removed from the roster.
 Pokemon Trainer::choose_pokemon(PokemonType adversary_type) {
   assert(!active_roster.empty());
-  return Pokemon(); // TODO: Replace with your implementation
+
+  Pokemon chosen_p;
+
+  for (int i = 0; i < active_roster.size(); ++i){
+    if (active_roster[i].is_effective_against(adversary_type)){
+      chosen_p = active_roster[i];
+      active_roster.erase(active_roster.begin() + i);
+      return chosen_p;
+    }
+  }
+
+  return choose_pokemon();
 }
 
-// EFFECTS: Resets the trainers active roster so that it contains all
+// EFFECTS: Resets the trainer's active roster so that it contains all
 //          of their pokemon.
 void Trainer::reset() {
   active_roster = pokemon;
